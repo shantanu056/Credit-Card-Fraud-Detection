@@ -9,7 +9,7 @@
 
 Credit card fraud represents a significant challenge in the financial industry. With the increasing reliance on online transactions, fraudsters exploit vulnerabilities, causing financial and reputational losses.
 
-This project aims to **analyze transaction patterns**, **handle imbalanced data**, and **apply machine learning algorithms** to accurately detect fraudulent transactions.
+This project aims to **analyze transaction patterns**, **handle imbalanced data**, and **apply machine learning algorithms** to accurately detect fraudulent transactions.A key enhancement in this iteration is the integration of MLFlow for comprehensive tracking, comparison, and management of all trained models.
 
 ---
 
@@ -41,11 +41,15 @@ Credit-Card-Fraud-Detection/
 
 ##  Data Preprocessing
 
-* Loaded dataset and explored columns, datatypes, and null values.
-* Conducted **exploratory data analysis (EDA)** with statistical summaries and visualizations.
-* Addressed **class imbalance** using resampling techniques.
-* Scaled/normalized features where necessary.
-* Finalized a **balanced, clean dataset** for modeling.
+To handle the dataset's challenges, the following steps were taken:
+
+**Handling Missing Values:** Imputing or dropping columns with high rates of missing data.
+
+**Categorical Feature Encoding:** Converting nominal and ordinal features into numerical representations (e.g., One-Hot Encoding).
+
+**Feature Scaling:** Standardizing or normalizing numerical features to ensure all algorithms treat them equally.
+
+**Imbalance Handling:** Applying techniques like SMOTE (Synthetic Minority Over-sampling Technique) to balance the class distribution, which is crucial for training effective fraud detection models.
 
 ---
 
@@ -64,21 +68,46 @@ The following algorithms were implemented and evaluated:
 
 ---
 
-##  Results & Findings
+## 🔍 Model Evaluation & MLFlow Tracking
 
-* All algorithms achieved **similar accuracy**.
-* **Decision Tree** was chosen as the final model because it achieved **comparable accuracy with the least processing time**.
+Multiple classification models were tested and tracked using MLFlow.
 
-| Model               | Accuracy | Notes                           |
-| ------------------- | -------- | ------------------------------- |
-| Logistic Regression | \~ High  | Stable baseline model           |
-| KNN                 | \~ High  | Tuned for best neighbors        |
-| SVM                 | \~ High  | Required parameter tuning       |
-| Decision Tree       | \~ High  |  Fastest, chosen final model   |
-| Random Forest       | \~ High  | Slightly higher processing time |
-| AdaBoost            | \~ High  | Boosting improved stability     |
-| Gradient Boost      | \~ High  | Similar performance to others   |
-| XGBoost             | \~ High  | Competitive but slower          |
+### 1️⃣ MLFlow Run Overview
+
+Each model (e.g., Logistic Regression, Decision Tree, XGBoost) is logged as a separate run under a single MLFlow experiment, capturing metrics and artifacts.
+
+### 2️⃣ Model Comparison
+
+MLFlow's UI enables side-by-side comparison of:
+- Accuracy
+- Precision
+- Recall
+- F1-Score
+
+### 3️⃣ Run Logging
+
+Each run logs:
+- Hyperparameters
+- Evaluation metrics
+- Trained model artifact (`.pkl`)
+
+---
+
+## 🧪 Models & Artifacts
+
+* Sample Logged variables include-
+
+| Model              | Logged Metrics     | Key Parameters             | Artifacts     |
+|-------------------|--------------------|----------------------------|---------------|
+| Logistic Regression | Accuracy, F1, Precision, Recall       | `C`, `solver`              | `model.pkl`   |
+| Decision Tree       | Accuracy, F1, Precision, Recall        | `max_depth`, `min_samples_split` | `model.pkl`   |
+| XGBoost             | Accuracy, F1, Precision, Recall        | `n_estimators`, `max_depth`, `gamma` | `model.pkl`   |
+
+<img width="1919" height="955" alt="Credit Card Fraud Detection Mlflow 1" src="https://github.com/user-attachments/assets/705cddc9-5428-4d5c-b258-dd2e38199125" />
+
+<img width="1533" height="987" alt="Credit Card Fraud Detection Mlflow 2" src="https://github.com/user-attachments/assets/f6c7dcb3-e3df-4f7f-a802-b73688c0f47a" />
+
+<img width="1917" height="1001" alt="Credit Card Fraud Detection Mlflow 3" src="https://github.com/user-attachments/assets/b1cb3be4-c175-4a30-ab1c-0a7835eedb6e" />
 
 ---
 
@@ -87,7 +116,7 @@ The following algorithms were implemented and evaluated:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/Credit-Card-Fraud-Detection.git
+   git clone https://github.com/shantanu056/Credit-Card-Fraud-Detection.git
    cd Credit-Card-Fraud-Detection
    ```
 2. Install dependencies:
@@ -103,7 +132,12 @@ The following algorithms were implemented and evaluated:
 4. Run notebooks in order:
 
    * **Preprocessing** → prepares the data
-   * **Algorithms** → trains & evaluates models
+   * **Algorithms-MLFlow** → trains, evaluates and logs models 
+
+5. Start MLFlow UI
+bash
+mlflow ui
+Then open http://localhost:5000 in your browser to view tracked runs.
 
 ---
 
@@ -114,12 +148,14 @@ The following algorithms were implemented and evaluated:
 * Matplotlib, Seaborn (EDA & Visualization)
 * Scikit-learn
 * XGBoost
+* MLFlow (Model Tracking & Management)
 
 ---
 
 ##  Future Work
 
 * Hyperparameter tuning with GridSearchCV/RandomizedSearchCV
+* MLFlow Model Registry for version control
 * Deploying model with Flask/Streamlit
 * Real-time fraud detection API
 
